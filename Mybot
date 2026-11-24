@@ -1,97 +1,22 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Wallet Mini App Template</title>
-<style>
-  :root {
-    --bg: #14100c; --card: #1f1b17; --line: #3a3128;
-    --text: #f3ece3; --muted: #a39786; --gold: #e0b987; --gold-deep: #b3875a;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans Bengali", sans-serif;
-    background: var(--bg); color: var(--text);
-    min-height: 100vh; max-width: 480px; margin: 0 auto;
-    padding: 20px 16px 96px; position: relative; overflow-x: hidden;
-  }
-  .globe {
-    position: absolute; top: 40px; right: -90px; width: 360px; height: 360px;
-    border-radius: 50%; z-index: -1; opacity: .75;
-    background:
-      radial-gradient(circle at 30% 70%, rgba(224,185,135,.35), transparent 40%),
-      radial-gradient(circle, rgba(224,185,135,.55) 1px, transparent 1.5px) 0 0 / 9px 9px,
-      radial-gradient(circle at 35% 30%, #6b4d31, #2a1d10 70%);
-    box-shadow: 0 0 80px rgba(179,135,90,.35), inset -40px -30px 80px rgba(0,0,0,.7);
-    -webkit-mask: radial-gradient(circle, #000 55%, transparent 72%);
-            mask: radial-gradient(circle, #000 55%, transparent 72%);
-  }
-  .brand { font-size: 28px; letter-spacing: 6px; font-weight: 600; }
-  .brand i { color: var(--gold); font-style: normal; }
-  svg.i { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-
-  .page { display: none; }
-  .page.show { display: block; }
-
-  .total { text-align: center; margin: 48px 0 20px; }
-  .total small { color: var(--muted); font-size: 13px; letter-spacing: 1px; }
-  .total .usd { font-size: 54px; font-weight: 500; margin: 10px 0 4px; }
-  .total .usd span { font-size: 24px; color: var(--gold); margin-right: 4px; }
-  .total .tkn { color: var(--muted); }
-  .chip { display: inline-block; margin-top: 14px; padding: 8px 16px; background: rgba(31,27,23,.9); border-radius: 8px; font-size: 14px; }
-  .chip b { color: #8fd18f; }
-
-  .actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 28px 0; }
-  .actions button {
-    background: rgba(31,27,23,.92); border: 1px solid var(--line); color: var(--text);
-    border-radius: 18px; padding: 16px 4px; font: inherit; font-size: 13px; cursor: pointer;
-  }
-  .actions button svg { display: block; margin: 0 auto 8px; color: var(--gold); width: 30px; height: 30px; }
-  .actions button:active { transform: scale(.96); }
-
-  .boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .box {
-    border: 1px solid var(--line); background: rgba(31,27,23,.92); color: var(--text);
-    border-radius: 16px; padding: 18px; text-align: left; cursor: pointer; font: inherit;
-  }
-  .box.active { background: linear-gradient(135deg, #f6e4c8 0%, #d9ae7c 55%, var(--gold-deep) 100%); color: #2a1d10; border-color: transparent; }
-  .box .label { display: flex; align-items: center; gap: 8px; font-size: 16px; }
-  .box .label svg { width: 22px; height: 22px; }
-  .box .val { font-size: 28px; margin-top: 18px; }
-
-  h2 { font-size: 20px; font-weight: 500; margin: 32px 0 12px; }
-  .row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .logo {
-    width: 52px; height: 52px; border-radius: 50%; flex: none;
-    background: linear-gradient(135deg, #f0cf9f, var(--gold-deep));
-    display: grid; place-items: center; font-weight: 700; color: #2a1d10; font-size: 22px;
-  }
-  .row .info { flex: 1; }
-  .row .info b { font-size: 20px; font-weight: 600; }
-  .row small, .row .info div { color: var(--muted); font-size: 14px; }
-  .row .amt { text-align: right; font-size: 20px; }
-
-  .empty { color: var(--muted); text-align: center; padding: 60px 0; }
-  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-top: 16px; }
-  .panel small { color: var(--muted); }
-
-  nav {
-    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 480px; display: grid; grid-template-columns: repeat(5, 1fr);
-    background: #1a1612; border-top: 1px solid var(--line);
-    padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px));
-  }
-  .tab { background: none; border: 0; color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; padding: 4px; }
-  .tab svg { display: block; margin: 0 auto 4px; }
-  .tab.active { color: var(--text); }
-  .tab.active svg { color: var(--gold); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>আমার মিনি অ্যাপ</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<body>
-<div class="globe"></div>
+<body style="font-family: sans-serif; text-align: center; padding: 40px;">
+  <h2>স্বাগতম! এটি আমার টেলিগ্রাম মিনি অ্যাপ</h2>
+  <p id="user"></p>
 
-<svg width="0" height="0" style="position:absolute">
-  <symbol id="ic-receive" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="3"/><path d="M3 10h18M12 13v6m-2.5-2.5L12 19l2.5-2.5"/></symbol>
-  <symbol id="ic-send" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="13" rx="3"/><path d="M3 10h18M12 19v-6m-2.5 2.5L12 13l2.5 2.5"/></symbol>
-  <symbol i
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    const user = tg.initDataUnsafe?.user;
+    if (user) {
+      document.getElementById("user").innerText = "নাম: " + user.first_name;
+    }
+  </script>
+</body>
+</html>
