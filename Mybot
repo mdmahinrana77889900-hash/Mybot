@@ -3,20 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>আমার মিনি অ্যাপ</title>
+  <title>Tavora Mini App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--tg-theme-bg-color, #121212);
+      color: var(--tg-theme-text-color, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90vh;
+      text-align: center;
+    }
+    .card {
+      background: var(--tg-theme-secondary-bg-color, #1e1e1e);
+      padding: 24px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--tg-theme-button-color, #2481cc);
+      color: var(--tg-theme-button-text-color, #ffffff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: bold;
+      margin: 0 auto 12px;
+    }
+    h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+    .username {
+      color: var(--tg-theme-hint-color, #999999);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .score-box {
+      background: rgba(36, 129, 204, 0.15);
+      border: 1px solid var(--tg-theme-button-color, #2481cc);
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .score-label {
+      font-size: 13px;
+      color: var(--tg-theme-hint-color, #aaaaaa);
+    }
+    .score-value {
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      background-color: var(--tg-theme-button-color, #2481cc);
+      color: var(--tg-theme-button-text-color, #ffffff);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; text-align: center; padding: 40px;">
-  <h2>স্বাগতম! এটি আমার টেলিগ্রাম মিনি অ্যাপ</h2>
-  <p id="user"></p>
+<body>
+  <div class="card">
+    <div class="avatar" id="avatar">U</div>
+    <h2 id="user-name">স্বাগতম!</h2>
+    <div class="username" id="user-handle">@username</div>
+
+    <div class="score-box">
+      <div class="score-label">আপনার পয়েন্ট</div>
+      <div class="score-value" id="points">0</div>
+    </div>
+
+    <button id="tap-btn">+১ পয়েন্ট সংগ্রহ করুন</button>
+  </div>
 
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
+
+    // ইউজারের তথ্য সেট করা
     const user = tg.initDataUnsafe?.user;
     if (user) {
-      document.getElementById("user").innerText = "নাম: " + user.first_name;
+      const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
+      document.getElementById("user-name").innerText = fullName;
+      document.getElementById("avatar").innerText = user.first_name ? user.first_name[0].toUpperCase() : "U";
+      document.getElementById("user-handle").innerText = user.username ? "@" + user.username : "Telegram User";
     }
+
+    // পয়েন্ট সেভ ও বাড়ানোর লজিক
+    let points = parseInt(localStorage.getItem("tavora_points") || "0", 10);
+    const pointsEl = document.getElementById("points");
+    pointsEl.innerText = points;
+
+    document.getElementById("tap-btn").addEventListener("click", () => {
+      points += 1;
+      pointsEl.innerText = points;
+      localStorage.setItem("tavora_points", points);
+      if (tg.HapticFeedback) {
+        tg.HapticFeedback.impactOccurred("light");
+      }
+    });
   </script>
 </body>
 </html>
