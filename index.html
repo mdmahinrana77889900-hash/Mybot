@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tavora Wallet Mini App</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>TAVORA — Binance USDT Deposit & Withdraw</title>
   <style>
     :root {
-      --bg-dark: #14100c;
-      --card-dark: #211a13;
-      --card-border: rgba(217, 173, 110, 0.22);
-      --gold: #d9ad6e;
-      --gold-light: #f0cfa0;
-      --gold-grad: linear-gradient(135deg, #b88746 0%, #e5be84 55%, #c79652 100%);
-      --text-main: #f8f4ee;
-      --text-muted: #b3a490;
-      --accent-green: #22c55e;
+      --bg-dark: #0d0a07;
+      --bg-card: #19140f;
+      --gold-grad: linear-gradient(135deg, #d7b382 0%, #9c7244 100%);
+      --gold-text: #e5c396;
+      --muted: #9e9182;
+      --text: #f7f2eb;
+      --border: rgba(215, 179, 130, 0.18);
+      --accent-green: #2ecc71;
+      --usdt-green: #26a17b;
     }
 
     * {
@@ -26,604 +25,756 @@
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+      background: #070504;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
       min-height: 100vh;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: radial-gradient(circle at 60% 18%, rgba(168, 116, 56, 0.28), transparent 55%), var(--bg-dark);
+      position: relative;
       padding-bottom: 84px;
-      background-image: radial-gradient(rgba(217, 173, 110, 0.14) 1.2px, transparent 1.2px);
-      background-size: 16px 16px;
+      border-left: 1px solid rgba(255,255,255,0.04);
+      border-right: 1px solid rgba(255,255,255,0.04);
     }
 
-    .app-wrap {
-      max-width: 440px;
-      margin: 0 auto;
-      padding: 16px;
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: rgba(13, 10, 7, 0.85);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
-    .top-brand {
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 18px 16px 22px;
+    }
+
+    .brand-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
+      align-items: baseline;
+      margin-bottom: 10px;
     }
 
     .brand-title {
       font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      color: var(--text-main);
+      font-weight: 700;
+      letter-spacing: 2px;
     }
 
-    .brand-title span {
-      color: var(--gold);
+    .brand-sub {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
     }
 
-    .user-chip {
-      background: var(--card-dark);
-      border: 1px solid var(--card-border);
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      color: var(--gold-light);
-    }
-
-    .hero-card {
-      background: radial-gradient(circle at 75% 20%, rgba(217, 173, 110, 0.22), rgba(20, 16, 12, 0.94) 70%);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
-      padding: 24px 16px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .hero-sub {
+    .val-label {
       font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+      color: #d6c7b5;
+      margin-bottom: 6px;
     }
 
-    .hero-usd {
-      font-size: 40px;
-      font-weight: 800;
-      color: #ffffff;
-      line-height: 1.1;
+    .val-amount {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
-    .hero-tkn {
+    .val-tvr {
       font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 6px;
+      color: #cbbba7;
+      margin-top: 4px;
     }
 
-    .reward-pill {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 7px 14px;
+    .daily-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 6px 14px;
       border-radius: 999px;
-      background: rgba(217, 173, 110, 0.14);
-      border: 1px solid rgba(217, 173, 110, 0.25);
-      color: var(--gold-light);
+      background: rgba(34, 27, 20, 0.9);
+      border: 1px solid var(--border);
       font-size: 12px;
-      font-weight: 600;
+      color: #e2d5c5;
     }
 
-    .quick-grid {
+    .actions-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      margin-bottom: 16px;
+      padding: 0 14px;
+      margin-bottom: 18px;
     }
 
-    .quick-btn {
-      background: var(--card-dark);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
+    .action-card {
+      background: rgba(28, 22, 16, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       padding: 12px 6px;
-      color: var(--text-main);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      color: var(--text);
       font-size: 12px;
-      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.1s, border-color 0.15s;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
 
-    .quick-btn:active {
-      transform: scale(0.96);
+    .action-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold-text);
     }
 
-    .quick-btn.active {
-      border-color: var(--gold);
-      background: rgba(217, 173, 110, 0.14);
-    }
-
-    .quick-icon {
+    .action-icon {
       font-size: 18px;
-      color: var(--gold-light);
+      color: var(--gold-text);
     }
 
-    .assets-grid {
+    .dual-cards {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 10px;
+      padding: 0 14px;
+      margin-bottom: 20px;
     }
 
-    .asset-gold {
-      background: var(--gold-grad);
-      color: #1a1208;
-      border-radius: 18px;
-      padding: 16px;
-    }
-
-    .asset-gold .label {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .asset-gold .val {
-      font-size: 24px;
-      font-weight: 800;
-    }
-
-    .asset-dark {
-      background: var(--card-dark);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 16px;
-    }
-
-    .asset-dark .label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 14px;
-    }
-
-    .asset-dark .val {
-      font-size: 24px;
-      font-weight: 800;
-      color: #ffffff;
-    }
-
-    .panel {
-      background: var(--card-dark);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-
-    .panel h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      color: var(--gold-light);
-    }
-
-    input, select {
-      width: 100%;
-      padding: 11px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(217, 173, 110, 0.28);
-      background: #14100c;
-      color: var(--text-main);
-      font-size: 14px;
-      margin-top: 8px;
-    }
-
-    .action-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      background: var(--gold-grad);
-      color: #191108;
-      font-weight: 700;
-      font-size: 14px;
-      margin-top: 10px;
+    .asset-box {
+      border-radius: 14px;
+      padding: 14px;
       cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
     }
 
-    .action-btn.secondary {
-      background: rgba(217, 173, 110, 0.14);
-      color: var(--gold-light);
-      border: 1px solid var(--card-border);
+    .asset-box.active-gold {
+      background: var(--gold-grad);
+      color: #1b1209;
+      border: none;
     }
 
-    .task-row {
+    .asset-box-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 14px;
     }
 
-    .task-row:last-child {
-      border-bottom: none;
-    }
-
-    .claim-btn {
-      padding: 7px 12px;
-      border-radius: 10px;
-      border: none;
-      background: var(--gold);
-      color: #191108;
+    .asset-box-val {
+      font-size: 20px;
       font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .claim-btn.done {
-      background: var(--accent-green);
-      color: #ffffff;
-    }
-
-    .ref-box {
-      background: #14100c;
-      border: 1px dashed var(--card-border);
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      word-break: break-all;
-      color: var(--gold-light);
-      margin-top: 8px;
     }
 
     .section {
+      padding: 0 14px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #efe6da;
+    }
+
+    .token-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
+    .token-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .token-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--gold-grad);
+      color: #1a1108;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .token-badge.usdt {
+      background: var(--usdt-green);
+      color: #ffffff;
+    }
+
+    .token-name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .token-sub {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .token-price {
+      font-size: 12px;
+      color: #d6c7b5;
+      margin-top: 2px;
+    }
+
+    .token-right {
+      text-align: right;
+    }
+
+    .token-bal {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .token-usd {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .modal-backdrop {
       display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 50;
+      justify-content: center;
+      align-items: flex-end;
     }
 
-    .section.active {
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 430px;
+      background: #17120d;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 20px 16px 28px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .binance-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(243, 186, 47, 0.14);
+      color: #f3ba2f;
+      border: 1px solid rgba(243, 186, 47, 0.35);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .address-box {
+      background: #0e0b08;
+      border: 1px dashed var(--gold-text);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      word-break: break-all;
+      font-size: 13px;
+      color: var(--gold-text);
+    }
+
+    .copy-btn {
+      background: var(--gold-grad);
+      color: #181008;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    .field-label {
       display: block;
+      font-size: 12px;
+      color: #d6c7b5;
+      margin-bottom: 6px;
     }
 
-    .bottom-bar {
+    .field-input, .field-select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0e0b08;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      background: var(--gold-grad);
+      color: #181008;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .bottom-nav {
       position: fixed;
       bottom: 0;
-      left: 0;
-      right: 0;
-      background: #19130e;
-      border-top: 1px solid var(--card-border);
+      width: 100%;
+      max-width: 430px;
+      background: #120e0a;
+      border-top: 1px solid var(--border);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 8px 4px;
-      z-index: 40;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 0 10px;
+      z-index: 30;
     }
 
     .nav-item {
-      background: transparent;
+      background: none;
       border: none;
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 600;
+      color: var(--muted);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
-      padding: 5px 2px;
+      gap: 4px;
+      font-size: 11px;
       cursor: pointer;
     }
 
     .nav-item.active {
-      color: var(--gold-light);
+      color: var(--gold-text);
+      font-weight: 600;
     }
 
     .toast {
       position: fixed;
-      top: 14px;
+      top: 64px;
       left: 50%;
       transform: translateX(-50%);
-      background: #2b2116;
-      color: #fff;
-      border: 1px solid var(--gold);
+      background: #231b12;
+      color: var(--gold-text);
+      border: 1px solid var(--gold-text);
       padding: 9px 16px;
       border-radius: 10px;
       font-size: 13px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-      z-index: 99;
-    }
-
-    .toast.show {
-      opacity: 1;
+      z-index: 100;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="toast" id="toast"></div>
+  <div class="app-shell">
+    <div id="toast" class="toast"></div>
 
-  <div class="app-wrap">
-    <div class="top-brand">
-      <div class="brand-title">TAVORA<span>.</span></div>
-      <div class="user-chip" id="top-user">@prince</div>
+    <!-- Top Header -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="icon-btn" onclick="showToast('হোম স্ক্রিনে আছেন')">✕</button>
+        <span>TAVORA</span>
+      </div>
+      <div style="display:flex; gap:14px;">
+        <button class="icon-btn" onclick="showToast('Asset: USDT (Binance Only)')">⌄</button>
+        <button class="icon-btn" onclick="showToast('শুধুমাত্র Binance USDT ডিপোজিট ও উইথড্র সক্রিয়')">⋮</button>
+      </div>
     </div>
 
-    <!-- HOME / WALLET OVERVIEW -->
-    <section id="tab-home" class="section active">
-      <div class="hero-card">
-        <div class="hero-sub">মোট সম্পদ · USD</div>
-        <div class="hero-usd" id="hero-usd">$12.00</div>
-        <div class="hero-tkn" id="hero-tkn">≈ 120.00 TKN</div>
-        <div class="reward-pill" id="today-reward">আজকের পুরস্কার +0.00</div>
+    <!-- Hero Valuation -->
+    <div class="hero">
+      <div class="brand-row">
+        <div class="brand-title">TAVORA.</div>
+        <div class="brand-sub">USDT / WEB3</div>
+      </div>
+      <div class="val-label">Total Asset Valuation · USDT</div>
+      <div class="val-amount" id="totalUsdt">$12.00</div>
+      <div class="val-tvr" id="usdtSubline">12.00 USDT · ≈ 120.00 TVR</div>
+      <div class="daily-pill">● Daily TVR +0.00</div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="actions-grid">
+      <button class="action-card" onclick="openDepositModal()">
+        <span class="action-icon">⬇</span>
+        <span>Deposit USDT</span>
+      </button>
+      <button class="action-card" onclick="openWithdrawModal()">
+        <span class="action-icon">⬆</span>
+        <span>Withdraw USDT</span>
+      </button>
+      <button class="action-card" onclick="showToast('Flash Swap শীঘ্রই আসছে')">
+        <span class="action-icon">⇄</span>
+        <span>Flash Swap</span>
+      </button>
+      <button class="action-card" onclick="showToast('Promotion চালু আছে')">
+        <span class="action-icon">☰</span>
+        <span>Promotion</span>
+      </button>
+    </div>
+
+    <!-- Asset Cards -->
+    <div class="dual-cards">
+      <div class="asset-box active-gold" id="cardTokenAssets" onclick="selectAssetCard('token')">
+        <div class="asset-box-top">
+          <span>USDT Assets</span>
+          <span>✔</span>
+        </div>
+        <div class="asset-box-val" id="tokenAssetsUsdt">$12.00</div>
       </div>
 
-      <div class="quick-grid">
-        <button class="quick-btn active" id="q-receive" onclick="openQuickAction('receive')">
-          <span class="quick-icon">📥</span>
-          <span>Receive</span>
-        </button>
-        <button class="quick-btn" id="q-transfer" onclick="openQuickAction('transfer')">
-          <span class="quick-icon">📤</span>
-          <span>Transfer</span>
-        </button>
-        <button class="quick-btn" id="q-swap" onclick="openQuickAction('swap')">
-          <span class="quick-icon">⇄</span>
-          <span>Flash Swap</span>
-        </button>
-        <button class="quick-btn" id="q-promo" onclick="openQuickAction('promo')">
-          <span class="quick-icon">🎁</span>
-          <span>Promotion</span>
-        </button>
+      <div class="asset-box" id="cardHoldNode" onclick="selectAssetCard('node')">
+        <div class="asset-box-top">
+          <span>Hold Node</span>
+          <span>❖</span>
+        </div>
+        <div class="asset-box-val" id="holdNodeUsdt">$0.00</div>
       </div>
+    </div>
 
-      <div class="assets-grid">
-        <div class="asset-gold">
-          <div class="label">🪙 Token Assets</div>
-          <div class="val" id="asset-usd">$12.00</div>
-        </div>
-        <div class="asset-dark">
-          <div class="label">📦 Hold Node</div>
-          <div class="val" id="hold-usd">$0.00</div>
-        </div>
-      </div>
+    <!-- Tokens List (USDT + TVR) -->
+    <div class="section" id="tab-home">
+      <div class="section-title">Tokens</div>
 
-      <!-- Quick Action Box -->
-      <div class="panel" id="quick-panel">
-        <div id="box-receive">
-          <h3>Receive / Deposit (TKN)</h3>
-          <input type="number" id="dep-tkn" placeholder="ডিপোজিট TKN পরিমাণ (যেমন: 50)" min="1" />
-          <button class="action-btn" onclick="doDeposit()">Deposit করুন</button>
-        </div>
-
-        <div id="box-transfer" style="display:none;">
-          <h3>Transfer / Withdraw (TKN)</h3>
-          <input type="number" id="tr-tkn" placeholder="ট্রান্সফার/উইথড্র TKN পরিমাণ" min="1" />
-          <input type="text" id="tr-target" placeholder="প্রাপকের @username বা ওয়ালেট" />
-          <button class="action-btn" onclick="doTransfer()">Transfer করুন</button>
-        </div>
-
-        <div id="box-swap" style="display:none;">
-          <h3>Flash Swap (TKN → Hold Node)</h3>
-          <input type="number" id="swap-tkn" placeholder="Node-এ লক করার TKN পরিমাণ" min="1" />
-          <button class="action-btn" onclick="doSwapToNode()">Hold Node-এ Swap করুন</button>
-        </div>
-
-        <div id="box-promo" style="display:none;">
-          <h3>Promotion & Daily Tap</h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
-            প্রতি ট্যাপে +1 TKN পান (10 TKN = $1.00)।
-          </p>
-          <button class="action-btn" onclick="doTap()">+1 TKN ট্যাপ করুন</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- TASKS / PROMOTION -->
-    <section id="tab-tasks" class="section">
-      <div class="panel">
-        <h3>Promotion & Tasks</h3>
-        <div class="task-row">
+      <div class="token-row">
+        <div class="token-left">
+          <div class="token-badge usdt">₮</div>
           <div>
-            <div><strong>ডেইলি চেক-ইন</strong></div>
-            <div style="font-size:12px; color:var(--text-muted);">+20 TKN ($2.00)</div>
+            <div class="token-name">USDT</div>
+            <div class="token-sub">Tether · Binance</div>
+            <div class="token-price">≈ $1.00</div>
           </div>
-          <button class="claim-btn" id="btn-t1" onclick="claimTask('t1', 20)">ক্লেইম</button>
         </div>
-        <div class="task-row">
+        <div class="token-right">
+          <div class="token-bal" id="usdtBalance">12.00</div>
+          <div class="token-usd" id="usdtUsd">≈ $12.00</div>
+        </div>
+      </div>
+
+      <div class="token-row">
+        <div class="token-left">
+          <div class="token-badge">T</div>
           <div>
-            <div><strong>অফিসিয়াল চ্যানেল ভিজিট</strong></div>
-            <div style="font-size:12px; color:var(--text-muted);">+30 TKN ($3.00)</div>
+            <div class="token-name">TVR</div>
+            <div class="token-sub">TAVORA</div>
+            <div class="token-price">≈ $0.10001</div>
           </div>
-          <button class="claim-btn" id="btn-t2" onclick="claimTask('t2', 30)">ক্লেইম</button>
         </div>
-        <div class="task-row">
+        <div class="token-right">
+          <div class="token-bal" id="tvrBalance">120</div>
+          <div class="token-usd" id="tvrUsd">≈ $12.0012</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Section -->
+    <div class="section" id="tab-activity" style="display:none;">
+      <div class="section-title">Binance USDT Activity & Withdraw Requests</div>
+      <div id="activityList">
+        <div class="token-row">
           <div>
-            <div><strong>রেফার বোনাস আনলক</strong></div>
-            <div style="font-size:12px; color:var(--text-muted);">+50 TKN ($5.00)</div>
+            <div class="token-name">System Ready</div>
+            <div class="token-sub">Currency: USDT · Method: Binance Only</div>
           </div>
-          <button class="claim-btn" id="btn-t3" onclick="claimTask('t3', 50)">ক্লেইম</button>
+          <div class="token-right">
+            <div class="token-usd" style="color:var(--accent-green);">Active</div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- WALLET HISTORY -->
-    <section id="tab-wallet" class="section">
-      <div class="panel">
-        <h3>সাম্প্রতিক লেনদেন</h3>
-        <div id="tx-list" style="font-size:13px; color:var(--text-muted);">এখনো কোনো লেনদেন নেই।</div>
-      </div>
-    </section>
-
-    <!-- PROFILE -->
-    <section id="tab-profile" class="section">
-      <div class="panel">
-        <h3>প্রোফাইল ও রেফার</h3>
-        <div style="font-size:15px; font-weight:700;" id="p-name">Prince</div>
-        <div style="font-size:13px; color:var(--text-muted); margin-top:2px;" id="p-handle">@prince</div>
-        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;" id="p-id">ID: Guest</div>
-
-        <div style="margin-top:14px;">
-          <div style="font-size:13px; font-weight:600;">আপনার রেফার লিংক</div>
-          <div class="ref-box" id="ref-url">https://t.me/tavoraeeebot?start=ref_guest</div>
-          <button class="action-btn secondary" onclick="copyRef()">রেফার লিংক কপি করুন</button>
-        </div>
-      </div>
-    </section>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+        <span>🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" id="nav-activity" onclick="switchTab('activity')">
+        <span>📅</span>
+        <span>Activity</span>
+      </button>
+      <button class="nav-item" onclick="showToast('TVR স্ট্যাটস আপডেটেড')">
+        <span>📊</span>
+        <span>TVR</span>
+      </button>
+      <button class="nav-item" onclick="showToast('Node স্ট্যাটাস সক্রিয়')">
+        <span>🖼</span>
+        <span>Node</span>
+      </button>
+      <button class="nav-item" onclick="openDepositModal()">
+        <span>👤</span>
+        <span>My</span>
+      </button>
+    </nav>
   </div>
 
-  <nav class="bottom-bar">
-    <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
-      <span>🏠</span><span>Home</span>
-    </button>
-    <button class="nav-item" id="nav-tasks" onclick="switchTab('tasks')">
-      <span>🎁</span><span>Tasks</span>
-    </button>
-    <button class="nav-item" id="nav-wallet" onclick="switchTab('wallet')">
-      <span>💳</span><span>History</span>
-    </button>
-    <button class="nav-item" id="nav-profile" onclick="switchTab('profile')">
-      <span>👤</span><span>Profile</span>
-    </button>
-  </nav>
+  <!-- BINANCE USDT DEPOSIT MODAL (ONLY BINANCE + USDT) -->
+  <div class="modal-backdrop" id="depositModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3>Deposit USDT (Binance Only)</h3>
+        <button class="icon-btn" onclick="closeModals()">✕</button>
+      </div>
+
+      <div class="binance-pill">🟡 Binance · USDT Only</div>
+
+      <div class="field-group">
+        <label class="field-label">USDT Network</label>
+        <select class="field-select" id="depositNetwork" onchange="updateDepositAddressByNetwork()">
+          <option value="BEP20">BNB Smart Chain (BEP20) — USDT</option>
+          <option value="TRC20">TRON (TRC20) — USDT</option>
+        </select>
+      </div>
+
+      <div class="field-label">আপনার Binance USDT Deposit Address</div>
+      <div class="address-box">
+        <!-- নিচে BEP20 এবং TRC20 এর জায়গায় আপনার নিজের Binance USDT অ্যাড্রেস বসান -->
+        <span id="myBinanceUsdtAddress">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
+        <button class="copy-btn" onclick="copyMyAddress()">Copy</button>
+      </div>
+
+      <form onsubmit="submitDeposit(event)">
+        <div class="field-group">
+          <label class="field-label">ডিপোজিটকৃত পরিমাণ (USDT)</label>
+          <input type="number" step="0.01" min="1" required class="field-input" id="depositAmount" placeholder="যেমন: 10.00 USDT" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">TxID / Hash (ঐচ্ছিক)</label>
+          <input type="text" class="field-input" id="depositTxid" placeholder="Binance USDT ট্রানজেকশন আইডি দিন" />
+        </div>
+        <button type="submit" class="submit-btn">USDT ডিপোজিট কনফার্ম করুন</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- BINANCE USDT WITHDRAW MODAL (ONLY BINANCE + USDT) -->
+  <div class="modal-backdrop" id="withdrawModal">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3>Withdraw USDT (Binance Only)</h3>
+        <button class="icon-btn" onclick="closeModals()">✕</button>
+      </div>
+
+      <div class="binance-pill">🟡 Binance Payout · USDT Only</div>
+
+      <form onsubmit="submitWithdraw(event)">
+        <div class="field-group">
+          <label class="field-label">ইউজার Binance USDT অ্যাড্রেস</label>
+          <input type="text" required class="field-input" id="userBinanceUsdtAddr" placeholder="ইউজার তার Binance USDT অ্যাড্রেস দেবে" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">USDT Network</label>
+          <select class="field-select" id="withdrawNetwork">
+            <option value="BEP20">BNB Smart Chain (BEP20) — USDT</option>
+            <option value="TRC20">TRON (TRC20) — USDT</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">উইথড্র পরিমাণ (USDT)</label>
+          <input type="number" step="0.01" min="1" required class="field-input" id="withdrawAmount" placeholder="যেমন: 5.00 USDT" />
+        </div>
+        <button type="submit" class="submit-btn">USDT উইথড্র রিকোয়েস্ট পাঠান</button>
+      </form>
+    </div>
+  </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+    const TVR_RATE = 0.10001;
+    let usdtBalance = 12.00;
 
-    const u = tg.initDataUnsafe?.user || { id: "guest", first_name: "Prince", username: "prince" };
-    const fullName = [u.first_name, u.last_name].filter(Boolean).join(" ") || "Prince";
-    const handle = u.username ? "@" + u.username : "Telegram User";
-    const refLink = `https://t.me/tavoraeeebot?start=ref_${u.id}`;
+    // আপনার নিজের Binance USDT অ্যাড্রেস এখানে বসান
+    const BINANCE_USDT_ADDRESSES = {0x27291c55355aeef66b4df658ce01960f9d6735d9
+      BEP20: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      TRC20: "TNPeeaaFB7K9cmo4uQpcU32zGK8G1NYqeL"
+    };
 
-    document.getElementById("top-user").innerText = handle;
-    document.getElementById("p-name").innerText = fullName;
-    document.getElementById("p-handle").innerText = handle;
-    document.getElementById("p-id").innerText = "Telegram ID: " + u.id;
-    document.getElementById("ref-url").innerText = refLink;
-
-    // 120 TKN = $12.00 (10 TKN = $1.00)
-    let tkn = parseFloat(localStorage.getItem("tv_tkn") || "120");
-    let holdTkn = parseFloat(localStorage.getItem("tv_hold") || "0");
-    let todayReward = parseFloat(localStorage.getItem("tv_reward") || "0");
-    let tasksDone = JSON.parse(localStorage.getItem("tv_tasks") || "{}");
-    let txLogs = JSON.parse(localStorage.getItem("tv_tx") || "[]");
-
-    function toast(msg) {
-      const el = document.getElementById("toast");
-      el.innerText = msg;
-      el.classList.add("show");
-      setTimeout(() => el.classList.remove("show"), 2000);
+    function refreshUI() {
+      const tvrAmount = usdtBalance / TVR_RATE;
+      document.getElementById('totalUsdt').textContent = `$${usdtBalance.toFixed(2)}`;
+      document.getElementById('tokenAssetsUsdt').textContent = `$${usdtBalance.toFixed(2)}`;
+      document.getElementById('usdtSubline').textContent = `${usdtBalance.toFixed(2)} USDT · ≈ ${tvrAmount.toFixed(2)} TVR`;
+      document.getElementById('usdtBalance').textContent = usdtBalance.toFixed(2);
+      document.getElementById('usdtUsd').textContent = `≈ $${usdtBalance.toFixed(2)}`;
+      document.getElementById('tvrBalance').textContent = Math.floor(tvrAmount);
+      document.getElementById('tvrUsd').textContent = `≈ $${(Math.floor(tvrAmount) * TVR_RATE).toFixed(4)}`;
     }
 
-    function addLog(label, amount) {
-      txLogs.unshift({ label, amount });
-      txLogs = txLogs.slice(0, 12);
+    function updateDepositAddressByNetwork() {
+      const net = document.getElementById('depositNetwork').value;
+      document.getElementById('myBinanceUsdtAddress').textContent = BINANCE_USDT_ADDRESSES[net] || "";
     }
 
-    function saveAndRender() {
-      localStorage.setItem("tv_tkn", String(tkn));
-      localStorage.setItem("tv_hold", String(holdTkn));
-      localStorage.setItem("tv_reward", String(todayReward));
-      localStorage.setItem("tv_tasks", JSON.stringify(tasksDone));
-      localStorage.setItem("tv_tx", JSON.stringify(txLogs));
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2600);
+    }
 
-      const totalTkn = tkn + holdTkn;
-      const totalUsd = (totalTkn / 10).toFixed(2);
-      const tokenUsd = (tkn / 10).toFixed(2);
-      const holdUsd = (holdTkn / 10).toFixed(2);
+    function openDepositModal() {
+      closeModals();
+      updateDepositAddressByNetwork();
+      document.getElementById('depositModal').classList.add('open');
+    }
 
-      document.getElementById("hero-usd").innerText = "$" + totalUsd;
-      document.getElementById("hero-tkn").innerText = "≈ " + totalTkn.toFixed(2) + " TKN";
-      document.getElementById("today-reward").innerText = "আজকের পুরস্কার +" + todayReward.toFixed(2);
-      document.getElementById("asset-usd").innerText = "$" + tokenUsd;
-      document.getElementById("hold-usd").innerText = "$" + holdUsd;
+    function openWithdrawModal() {
+      closeModals();
+      document.getElementById('withdrawModal').classList.add('open');
+    }
 
-      ["t1", "t2", "t3"].forEach((id) => {
-        const b = document.getElementById("btn-" + id);
-        if (b && tasksDone[id]) {
-          b.innerText = "সম্পন্ন";
-          b.classList.add("done");
-          b.disabled = true;
-        }
-      });
+    function closeModals() {
+      document.getElementById('depositModal').classList.remove('open');
+      document.getElementById('withdrawModal').classList.remove('open');
+    }
 
-      const listEl = document.getElementById("tx-list");
-      if (!txLogs.length) {
-        listEl.innerHTML = "এখনো কোনো লেনদেন নেই।";
+    function copyMyAddress() {
+      const addr = document.getElementById('myBinanceUsdtAddress').textContent.trim();
+      navigator.clipboard?.writeText(addr);
+      showToast('Binance USDT অ্যাড্রেস কপি হয়েছে!');
+    }
+
+    function addActivityItem(title, subtitle, rightText, color = '#e5c396') {
+      const list = document.getElementById('activityList');
+      const row = document.createElement('div');
+      row.className = 'token-row';
+      row.innerHTML = `
+        <div>
+          <div class="token-name">${title}</div>
+          <div class="token-sub">${subtitle}</div>
+        </div>
+        <div class="token-right">
+          <div class="token-bal" style="font-size:14px; color:${color};">${rightText}</div>
+        </div>
+      `;
+      list.prepend(row);
+    }
+
+    function submitDeposit(e) {
+      e.preventDefault();
+      const amt = parseFloat(document.getElementById('depositAmount').value);
+      const net = document.getElementById('depositNetwork').value;
+      if (isNaN(amt) || amt <= 0) return;
+
+      usdtBalance += amt;
+      refreshUI();
+      addActivityItem(
+        `Binance Deposit (+${amt.toFixed(2)} USDT)`,
+        `Network: ${net} · To Admin Binance USDT`,
+        `+${amt.toFixed(2)} USDT`,
+        '#2ecc71'
+      );
+      e.target.reset();
+      closeModals();
+      showToast(`${amt.toFixed(2)} USDT Binance ডিপোজিট রেকর্ড হয়েছে`);
+    }
+
+    function submitWithdraw(e) {
+      e.preventDefault();
+      const addr = document.getElementById('userBinanceUsdtAddr').value.trim();
+      const net = document.getElementById('withdrawNetwork').value;
+      const amt = parseFloat(document.getElementById('withdrawAmount').value);
+
+      if (!addr || isNaN(amt) || amt <= 0) return;
+      if (amt > usdtBalance) {
+        showToast('পর্যাপ্ত USDT ব্যালেন্স নেই!');
+        return;
+      }
+
+      usdtBalance -= amt;
+      refreshUI();
+      addActivityItem(
+        `Binance Withdraw (-${amt.toFixed(2)} USDT)`,
+        `To: ${addr} (${net} · USDT)`,
+        `Pending`,
+        '#f3ba2f'
+      );
+      e.target.reset();
+      closeModals();
+      showToast('USDT উইথড্র রিকোয়েস্ট যুক্ত হয়েছে — অ্যাড্রেস কপি করে USDT পাঠান');
+    }
+
+    function selectAssetCard(type) {
+      const tokenCard = document.getElementById('cardTokenAssets');
+      const nodeCard = document.getElementById('cardHoldNode');
+      if (type === 'token') {
+        tokenCard.classList.add('active-gold');
+        nodeCard.classList.remove('active-gold');
       } else {
-        listEl.innerHTML = txLogs
-          .map((x) => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);"><span>${x.label}</span><strong>${x.amount}</strong></div>`)
-          .join("");
+        nodeCard.classList.add('active-gold');
+        tokenCard.classList.remove('active-gold');
       }
     }
 
-    function openQuickAction(type) {
-      ["receive", "transfer", "swap", "promo"].forEach((k) => {
-        document.getElementById("q-" + k).classList.toggle("active", k === type);
-        document.getElementById("box-" + k).style.display = k === type ? "block" : "none";
-      });
-    }
-
     function switchTab(tab) {
-      ["home", "tasks", "wallet", "profile"].forEach((t) => {
-        document.getElementById("tab-" + t).classList.toggle("active", t === tab);
-        document.getElementById("nav-" + t).classList.toggle("active", t === tab);
-      });
+      document.getElementById('tab-home').style.display = tab === 'home' ? 'block' : 'none';
+      document.getElementById('tab-activity').style.display = tab === 'activity' ? 'block' : 'none';
+      document.getElementById('nav-home').classList.toggle('active', tab === 'home');
+      document.getElementById('nav-activity').classList.toggle('active', tab === 'activity');
     }
 
-    function doTap() {
-      tkn += 1;
-      todayReward += 0.1;
-      if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
-      saveAndRender();
-    }
-
-    function doDeposit() {
-      const val = parseFloat(document.getElementById("dep-tkn").value);
-      if (!val || val <= 0) return toast("সঠিক পরিমাণ লিখুন।");
-      tkn += val;
-      document.getElementById("dep-tkn").value = "";
-      addLog("Receive / Deposit", "+" + val + " TKN");
-      toast("Deposit সফল হয়েছে!");
-      saveAndRender();
-    }
-
-    function doTransfer() {
-      const val = parseFloat(document.getElementById("tr-tkn").value);
-      const target = document.getElementById("tr-target").value.trim();
-      if (!val || val <= 0) return toast("সঠিক পরিমাণ লিখুন।");
-      if (!target) return toast("প্রাপকের তথ্য দিন।");
-      if (val > tkn) return toast("পর্যাপ্ত TKN ব্যালেন্স নেই।");
-      tkn -= val;
-      document.getElementById("tr-tkn").value = "";
-      document.getElementById("tr-target").value = "";
-      addLog("Transfer → " + target, "-" + val + " TKN");
-      toast("Transfer সম্পন্ন হয়েছে!");
-      saveAndRender();
-    }
-
-    function doSwapToNode() {
-      const val = parseFloat(document.getElementById("swap-tkn").value);
-      if (!val || val <= 0) return toast("সঠিক পরিমাণ লিখুন।");
-      if (val > tkn) return toast("পর্যাপ্ত TKN ব্যালেন্স নেই।");
-      tkn -= val;
-      holdTkn += val;
-      document.getElementById("swap-tkn").value = "";
-      addLog("Flash Swap → Hold Node", val + " TKN");
-      toast("Hold Node-এ যুক্ত হয়েছে!");
-      saveAndRender();
-    }
-
-    function claimTask(id, reward) {
-      if (tasksDone[id]) return;
-      tasksDone[id] = true;
-      tkn += reward;
-      todayReward += reward / 10;
-      addLog("Task Reward (" + id + ")", "+" + reward + " TKN");
-      toast("+" + reward + " TKN বোনাস যুক্ত হয়েছে!");
-      saveAndRender();
-    }
-
-    function copyRef() {
-      navigator.clipboard?.writeText(refLink);
-      toast("রেফার লিংক কপি হয়েছে!");
-    }
-
-    saveAndRender();
+    refreshUI();
   </script>
 </body>
 </html>
