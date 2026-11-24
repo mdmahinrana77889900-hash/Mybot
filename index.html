@@ -1,325 +1,427 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TAVORA — Binance USDT Deposit & Withdraw</title>
+  <title>TAVORA</title>
   <style>
     :root {
-      --bg-dark: #0d0a07;
-      --bg-card: #19140f;
-      --gold-grad: linear-gradient(135deg, #d7b382 0%, #9c7244 100%);
-      --gold-text: #e5c396;
-      --muted: #9e9182;
-      --text: #f7f2eb;
-      --border: rgba(215, 179, 130, 0.18);
-      --accent-green: #2ecc71;
-      --usdt-green: #26a17b;
+      --bg-base: #0b0806;
+      --card-dark: rgba(25, 20, 15, 0.88);
+      --gold-card: linear-gradient(135deg, #e7c595 0%, #b0824f 100%);
+      --gold-accent: #d9b584;
+      --text-main: #f6efe6;
+      --text-muted: #9e8f7e;
+      --border-subtle: rgba(217, 181, 132, 0.14);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
-      background: #070504;
-      color: var(--text);
+      background-color: #050403;
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       min-height: 100vh;
     }
 
-    .app-shell {
+    .phone-frame {
       width: 100%;
-      max-width: 430px;
+      max-width: 420px;
       min-height: 100vh;
-      background: radial-gradient(circle at 60% 18%, rgba(168, 116, 56, 0.28), transparent 55%), var(--bg-dark);
+      background:
+        radial-gradient(circle at 72% 18%, rgba(196, 141, 78, 0.42) 0%, rgba(112, 74, 34, 0.22) 32%, transparent 62%),
+        linear-gradient(180deg, #1b130c 0%, #0d0906 48%, #090705 100%);
       position: relative;
-      padding-bottom: 84px;
-      border-left: 1px solid rgba(255,255,255,0.04);
-      border-right: 1px solid rgba(255,255,255,0.04);
+      padding-bottom: 78px;
+      overflow-x: hidden;
     }
 
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      background: rgba(13, 10, 7, 0.85);
-      backdrop-filter: blur(8px);
+    /* Subtle planet arc glow matching screenshot */
+    .planet-orb {
+      position: absolute;
+      top: 52px;
+      right: -35px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(232, 182, 121, 0.34), rgba(115, 76, 36, 0.14) 58%, transparent 74%);
+      box-shadow: inset 12px 12px 35px rgba(255, 219, 172, 0.18);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top App Header */
+    .app-header {
       position: sticky;
       top: 0;
       z-index: 20;
-    }
-
-    .topbar-left {
+      background: #ffffff;
+      color: #111111;
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      justify-content: space-between;
+      padding: 12px 16px;
+      font-size: 17px;
+      font-weight: 500;
     }
 
-    .icon-btn {
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .hdr-btn {
       background: none;
       border: none;
-      color: var(--text);
+      color: #111111;
       font-size: 18px;
       cursor: pointer;
     }
 
-    .hero {
-      text-align: center;
-      padding: 18px 16px 22px;
+    /* Brand + Valuation Section */
+    .hero-wrap {
+      position: relative;
+      z-index: 1;
+      padding: 18px 18px 20px;
     }
 
-    .brand-row {
+    .brand-bar {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 10px;
+      align-items: center;
+      margin-bottom: 24px;
     }
 
-    .brand-title {
+    .brand-logo {
       font-size: 22px;
       font-weight: 700;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
+      color: #ffffff;
     }
 
-    .brand-sub {
+    .brand-tag {
       font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.55);
     }
 
-    .val-label {
+    .valuation-center {
+      text-align: center;
+    }
+
+    .valuation-title {
       font-size: 13px;
-      color: #d6c7b5;
-      margin-bottom: 6px;
+      color: rgba(246, 239, 230, 0.78);
+      letter-spacing: 0.3px;
+      margin-bottom: 8px;
     }
 
-    .val-amount {
-      font-size: 38px;
+    .valuation-usd {
+      font-size: 40px;
       font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .valuation-usd .dollar-sign {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .valuation-tvr {
+      font-size: 14px;
+      color: rgba(246, 239, 230, 0.65);
+      margin-top: 6px;
       letter-spacing: 0.5px;
     }
 
-    .val-tvr {
-      font-size: 14px;
-      color: #cbbba7;
-      margin-top: 4px;
-    }
-
-    .daily-pill {
+    .daily-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin-top: 12px;
+      gap: 7px;
+      margin-top: 16px;
       padding: 6px 14px;
-      border-radius: 999px;
-      background: rgba(34, 27, 20, 0.9);
-      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(24, 19, 14, 0.85);
+      border: 1px solid var(--border-subtle);
       font-size: 12px;
-      color: #e2d5c5;
+      color: #e3c89e;
     }
 
-    .actions-grid {
+    .daily-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #e3c89e;
+    }
+
+    /* 4 Action Tiles (Exact Labels: Receive, transfer, Flash Swap, Promotion) */
+    .quick-actions {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      padding: 0 14px;
+      padding: 0 16px;
       margin-bottom: 18px;
     }
 
-    .action-card {
-      background: rgba(28, 22, 16, 0.9);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 6px;
+    .qa-btn {
+      background: var(--card-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 14px 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-      color: var(--text);
+      gap: 10px;
+      color: #f3eadf;
       font-size: 12px;
       cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.15s ease;
     }
 
-    .action-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--gold-text);
+    .qa-btn:active {
+      transform: scale(0.97);
     }
 
-    .action-icon {
-      font-size: 18px;
-      color: var(--gold-text);
+    .qa-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #dfbe8f;
     }
 
-    .dual-cards {
+    /* Token Assets & Hold Node Cards */
+    .asset-cards {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      padding: 0 14px;
-      margin-bottom: 20px;
+      gap: 12px;
+      padding: 0 16px;
+      margin-bottom: 22px;
     }
 
-    .asset-box {
+    .asset-card {
       border-radius: 14px;
-      padding: 14px;
+      padding: 16px 14px;
+      background: var(--card-dark);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
       cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--bg-card);
     }
 
-    .asset-box.active-gold {
-      background: var(--gold-grad);
-      color: #1b1209;
+    .asset-card.selected {
+      background: var(--gold-card);
+      color: #1f160d;
       border: none;
     }
 
-    .asset-box-top {
+    .asset-card-head {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .asset-box-val {
+    .asset-card-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .check-circle {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #23180e;
+      color: #e7c595;
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .asset-card-amount {
       font-size: 20px;
       font-weight: 700;
     }
 
-    .section {
-      padding: 0 14px;
+    /* Tokens List */
+    .tokens-section {
+      position: relative;
+      z-index: 1;
+      padding: 0 16px;
     }
 
-    .section-title {
+    .tokens-heading {
       font-size: 15px;
       font-weight: 600;
-      margin-bottom: 12px;
-      color: #efe6da;
+      color: #f3eadf;
+      margin-bottom: 14px;
     }
 
-    .token-row {
+    .token-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 10px;
+      justify-content: space-between;
+      padding: 10px 2px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    .token-left {
+    .token-info {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .token-badge {
-      width: 38px;
-      height: 38px;
+    .tvr-coin {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: var(--gold-grad);
-      color: #1a1108;
+      background: radial-gradient(circle at 30% 30%, #f1d4a7, #9e713f);
+      color: #ffffff;
       font-weight: 800;
+      font-size: 19px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
     }
 
-    .token-badge.usdt {
-      background: var(--usdt-green);
+    .token-symbol {
+      font-size: 15px;
+      font-weight: 700;
       color: #ffffff;
     }
 
-    .token-name {
-      font-weight: 700;
-      font-size: 15px;
-    }
-
-    .token-sub {
+    .token-fullname {
       font-size: 11px;
-      color: var(--muted);
+      color: var(--text-muted);
+      margin-top: 1px;
     }
 
-    .token-price {
+    .token-rate {
       font-size: 12px;
-      color: #d6c7b5;
-      margin-top: 2px;
+      color: #cbbba7;
+      margin-top: 3px;
     }
 
-    .token-right {
+    .token-values {
       text-align: right;
     }
 
-    .token-bal {
-      font-weight: 700;
+    .token-qty {
       font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
     }
 
-    .token-usd {
+    .token-fiat {
       font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
-    .modal-backdrop {
+    /* Bottom Navigation Bar (Exact Icons & Labels: Home, Activity, TVR, Node, My) */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 420px;
+      background: #14100c;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 8px 0 10px;
+      z-index: 25;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #8c7f70;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      color: #e7c595;
+      font-weight: 600;
+    }
+
+    /* Binance USDT Modal Sheet */
+    .sheet-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: 50;
+      background: rgba(0, 0, 0, 0.78);
+      z-index: 60;
       justify-content: center;
       align-items: flex-end;
     }
 
-    .modal-backdrop.open {
+    .sheet-overlay.open {
       display: flex;
     }
 
-    .modal-sheet {
+    .sheet-box {
       width: 100%;
-      max-width: 430px;
-      background: #17120d;
+      max-width: 420px;
+      background: #16110c;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
-      border: 1px solid var(--border);
-      padding: 20px 16px 28px;
+      border-top: 1px solid rgba(231, 197, 149, 0.28);
+      padding: 20px 18px 28px;
+      color: var(--text-main);
     }
 
-    .modal-header {
+    .sheet-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 14px;
     }
 
-    .binance-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .binance-only-tag {
+      display: inline-block;
       background: rgba(243, 186, 47, 0.14);
+      border: 1px solid rgba(243, 186, 47, 0.4);
       color: #f3ba2f;
-      border: 1px solid rgba(243, 186, 47, 0.35);
-      padding: 4px 10px;
-      border-radius: 999px;
       font-size: 12px;
       font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
       margin-bottom: 14px;
     }
 
-    .address-box {
-      background: #0e0b08;
-      border: 1px dashed var(--gold-text);
+    .addr-card {
+      background: #0c0906;
+      border: 1px dashed #d9b584;
       border-radius: 10px;
       padding: 12px;
       display: flex;
@@ -327,14 +429,14 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 14px;
-      word-break: break-all;
       font-size: 13px;
-      color: var(--gold-text);
+      color: #e7c595;
+      word-break: break-all;
     }
 
-    .copy-btn {
-      background: var(--gold-grad);
-      color: #181008;
+    .btn-copy {
+      background: var(--gold-card);
+      color: #1c130a;
       border: none;
       border-radius: 8px;
       padding: 7px 12px;
@@ -344,437 +446,427 @@
       white-space: nowrap;
     }
 
-    .field-group {
+    .inp-group {
       margin-bottom: 12px;
     }
 
-    .field-label {
+    .inp-label {
       display: block;
       font-size: 12px;
-      color: #d6c7b5;
+      color: #cbbba7;
       margin-bottom: 6px;
     }
 
-    .field-input, .field-select {
+    .inp-ctrl {
       width: 100%;
       padding: 11px 12px;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #0e0b08;
-      color: var(--text);
+      border: 1px solid var(--border-subtle);
+      background: #0c0906;
+      color: #ffffff;
       font-size: 14px;
     }
 
-    .submit-btn {
+    .btn-primary {
       width: 100%;
       padding: 13px;
       border-radius: 12px;
       border: none;
-      background: var(--gold-grad);
-      color: #181008;
+      background: var(--gold-card);
+      color: #1c130a;
       font-weight: 700;
       font-size: 15px;
       cursor: pointer;
       margin-top: 6px;
     }
 
-    .bottom-nav {
+    .toast-msg {
       position: fixed;
-      bottom: 0;
-      width: 100%;
-      max-width: 430px;
-      background: #120e0a;
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      padding: 8px 0 10px;
-      z-index: 30;
-    }
-
-    .nav-item {
-      background: none;
-      border: none;
-      color: var(--muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      cursor: pointer;
-    }
-
-    .nav-item.active {
-      color: var(--gold-text);
-      font-weight: 600;
-    }
-
-    .toast {
-      position: fixed;
-      top: 64px;
+      top: 58px;
       left: 50%;
       transform: translateX(-50%);
-      background: #231b12;
-      color: var(--gold-text);
-      border: 1px solid var(--gold-text);
-      padding: 9px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      z-index: 100;
+      background: #211911;
+      color: #e7c595;
+      border: 1px solid #d9b584;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      z-index: 99;
       display: none;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <div id="toast" class="toast"></div>
+  <div class="phone-frame">
+    <div class="planet-orb"></div>
+    <div id="toast" class="toast-msg"></div>
 
-    <!-- Top Header -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <button class="icon-btn" onclick="showToast('হোম স্ক্রিনে আছেন')">✕</button>
+    <!-- Top White Header Bar matching screenshot -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="hdr-btn" onclick="switchView('home')">✕</button>
         <span>TAVORA</span>
       </div>
-      <div style="display:flex; gap:14px;">
-        <button class="icon-btn" onclick="showToast('Asset: USDT (Binance Only)')">⌄</button>
-        <button class="icon-btn" onclick="showToast('শুধুমাত্র Binance USDT ডিপোজিট ও উইথড্র সক্রিয়')">⋮</button>
+      <div class="header-right">
+        <button class="hdr-btn" onclick="toast('Binance USDT Only')">⌄</button>
+        <button class="hdr-btn" onclick="toast('Deposit & Withdraw: Binance USDT')">⋮</button>
       </div>
-    </div>
+    </header>
 
-    <!-- Hero Valuation -->
-    <div class="hero">
-      <div class="brand-row">
-        <div class="brand-title">TAVORA.</div>
-        <div class="brand-sub">USDT / WEB3</div>
+    <!-- Main Hero Section -->
+    <section class="hero-wrap">
+      <div class="brand-bar">
+        <div class="brand-logo">TAVORA.</div>
+        <div class="brand-tag">TVR / WEB3</div>
       </div>
-      <div class="val-label">Total Asset Valuation · USDT</div>
-      <div class="val-amount" id="totalUsdt">$12.00</div>
-      <div class="val-tvr" id="usdtSubline">12.00 USDT · ≈ 120.00 TVR</div>
-      <div class="daily-pill">● Daily TVR +0.00</div>
-    </div>
 
-    <!-- Action Buttons -->
-    <div class="actions-grid">
-      <button class="action-card" onclick="openDepositModal()">
-        <span class="action-icon">⬇</span>
-        <span>Deposit USDT</span>
+      <div class="valuation-center">
+        <div class="valuation-title">Total Asset Valuation · USD</div>
+        <div class="valuation-usd">
+          <span class="dollar-sign">$</span>
+          <span id="usdTotalText">12.00</span>
+        </div>
+        <div class="valuation-tvr" id="tvrTotalText">≈ 120.00 TVR</div>
+        <div class="daily-badge">
+          <span class="daily-dot"></span>
+          <span>Daily TVR +0.00</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Action Buttons matching screenshot -->
+    <section class="quick-actions">
+      <!-- Receive = Binance USDT Deposit -->
+      <button class="qa-btn" onclick="openDeposit()">
+        <span class="qa-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="M3 10h18M16 14v4m0 0-2-2m2 2 2-2"/>
+          </svg>
+        </span>
+        <span>Receive</span>
       </button>
-      <button class="action-card" onclick="openWithdrawModal()">
-        <span class="action-icon">⬆</span>
-        <span>Withdraw USDT</span>
+
+      <!-- transfer = Binance USDT Withdraw -->
+      <button class="qa-btn" onclick="openWithdraw()">
+        <span class="qa-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="M3 10h18M16 18v-4m0 0-2 2m2-2 2 2"/>
+          </svg>
+        </span>
+        <span>transfer</span>
       </button>
-      <button class="action-card" onclick="showToast('Flash Swap শীঘ্রই আসছে')">
-        <span class="action-icon">⇄</span>
+
+      <button class="qa-btn" onclick="toast('Flash Swap')">
+        <span class="qa-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M7 10h12l-4-4M17 14H5l4 4"/>
+          </svg>
+        </span>
         <span>Flash Swap</span>
       </button>
-      <button class="action-card" onclick="showToast('Promotion চালু আছে')">
-        <span class="action-icon">☰</span>
+
+      <button class="qa-btn" onclick="toast('Promotion')">
+        <span class="qa-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="4" y="4" width="16" height="16" rx="3"/>
+            <path d="M8 9h8M8 12h8M8 15h5"/>
+          </svg>
+        </span>
         <span>Promotion</span>
       </button>
-    </div>
+    </section>
 
-    <!-- Asset Cards -->
-    <div class="dual-cards">
-      <div class="asset-box active-gold" id="cardTokenAssets" onclick="selectAssetCard('token')">
-        <div class="asset-box-top">
-          <span>USDT Assets</span>
-          <span>✔</span>
+    <!-- Token Assets & Hold Node Cards -->
+    <section class="asset-cards">
+      <div class="asset-card selected" id="cardToken" onclick="toggleAsset('token')">
+        <div class="asset-card-head">
+          <div class="asset-card-left">
+            <span>💳</span>
+            <span>Token Assets</span>
+          </div>
+          <span class="check-circle" id="tokenCheck">✓</span>
         </div>
-        <div class="asset-box-val" id="tokenAssetsUsdt">$12.00</div>
+        <div class="asset-card-amount" id="tokenAssetAmt">$12.00</div>
       </div>
 
-      <div class="asset-box" id="cardHoldNode" onclick="selectAssetCard('node')">
-        <div class="asset-box-top">
-          <span>Hold Node</span>
-          <span>❖</span>
+      <div class="asset-card" id="cardNode" onclick="toggleAsset('node')">
+        <div class="asset-card-head">
+          <div class="asset-card-left">
+            <span>⬡</span>
+            <span>Hold Node</span>
+          </div>
         </div>
-        <div class="asset-box-val" id="holdNodeUsdt">$0.00</div>
+        <div class="asset-card-amount">$0.00</div>
       </div>
-    </div>
+    </section>
 
-    <!-- Tokens List (USDT + TVR) -->
-    <div class="section" id="tab-home">
-      <div class="section-title">Tokens</div>
-
-      <div class="token-row">
-        <div class="token-left">
-          <div class="token-badge usdt">₮</div>
+    <!-- Home Tokens Section (TVR) -->
+    <section class="tokens-section" id="viewHome">
+      <div class="tokens-heading">Tokens</div>
+      <div class="token-item">
+        <div class="token-info">
+          <div class="tvr-coin">T</div>
           <div>
-            <div class="token-name">USDT</div>
-            <div class="token-sub">Tether · Binance</div>
-            <div class="token-price">≈ $1.00</div>
+            <div class="token-symbol">TVR</div>
+            <div class="token-fullname">TAVORA</div>
+            <div class="token-rate">≈ $0.10001</div>
           </div>
         </div>
-        <div class="token-right">
-          <div class="token-bal" id="usdtBalance">12.00</div>
-          <div class="token-usd" id="usdtUsd">≈ $12.00</div>
+        <div class="token-values">
+          <div class="token-qty" id="tvrQty">120</div>
+          <div class="token-fiat" id="tvrFiat">≈ $12.0012</div>
         </div>
       </div>
+    </section>
 
-      <div class="token-row">
-        <div class="token-left">
-          <div class="token-badge">T</div>
+    <!-- Activity Section (For Binance USDT Deposit/Withdraw Logs) -->
+    <section class="tokens-section" id="viewActivity" style="display:none;">
+      <div class="tokens-heading">Binance USDT Activity</div>
+      <div id="activityContainer">
+        <div class="token-item">
           <div>
-            <div class="token-name">TVR</div>
-            <div class="token-sub">TAVORA</div>
-            <div class="token-price">≈ $0.10001</div>
+            <div class="token-symbol" style="font-size:14px;">Binance USDT Gateway</div>
+            <div class="token-fullname">Deposit & Withdraw: Binance USDT Only</div>
           </div>
-        </div>
-        <div class="token-right">
-          <div class="token-bal" id="tvrBalance">120</div>
-          <div class="token-usd" id="tvrUsd">≈ $12.0012</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Activity Section -->
-    <div class="section" id="tab-activity" style="display:none;">
-      <div class="section-title">Binance USDT Activity & Withdraw Requests</div>
-      <div id="activityList">
-        <div class="token-row">
-          <div>
-            <div class="token-name">System Ready</div>
-            <div class="token-sub">Currency: USDT · Method: Binance Only</div>
-          </div>
-          <div class="token-right">
-            <div class="token-usd" style="color:var(--accent-green);">Active</div>
+          <div class="token-values">
+            <div class="token-fiat" style="color:#d9b584;">Ready</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
-        <span>🏠</span>
+    <nav class="bottom-bar">
+      <button class="nav-btn active" id="navHome" onclick="switchView('home')">
+        <span>⌂</span>
         <span>Home</span>
       </button>
-      <button class="nav-item" id="nav-activity" onclick="switchTab('activity')">
+      <button class="nav-btn" id="navActivity" onclick="switchView('activity')">
         <span>📅</span>
         <span>Activity</span>
       </button>
-      <button class="nav-item" onclick="showToast('TVR স্ট্যাটস আপডেটেড')">
+      <button class="nav-btn" onclick="toast('TVR')">
         <span>📊</span>
         <span>TVR</span>
       </button>
-      <button class="nav-item" onclick="showToast('Node স্ট্যাটাস সক্রিয়')">
+      <button class="nav-btn" onclick="toast('Node')">
         <span>🖼</span>
         <span>Node</span>
       </button>
-      <button class="nav-item" onclick="openDepositModal()">
+      <button class="nav-btn" onclick="openDeposit()">
         <span>👤</span>
         <span>My</span>
       </button>
     </nav>
   </div>
 
-  <!-- BINANCE USDT DEPOSIT MODAL (ONLY BINANCE + USDT) -->
-  <div class="modal-backdrop" id="depositModal">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <h3>Deposit USDT (Binance Only)</h3>
-        <button class="icon-btn" onclick="closeModals()">✕</button>
+  <!-- DEPOSIT MODAL (BINANCE USDT ONLY) -->
+  <div class="sheet-overlay" id="depositSheet">
+    <div class="sheet-box">
+      <div class="sheet-head">
+        <h3>Deposit USDT</h3>
+        <button class="hdr-btn" style="color:#fff;" onclick="closeSheets()">✕</button>
       </div>
 
-      <div class="binance-pill">🟡 Binance · USDT Only</div>
+      <div class="binance-only-tag">Binance · USDT Only</div>
 
-      <div class="field-group">
-        <label class="field-label">USDT Network</label>
-        <select class="field-select" id="depositNetwork" onchange="updateDepositAddressByNetwork()">
-          <option value="BEP20">BNB Smart Chain (BEP20) — USDT</option>
-          <option value="TRC20">TRON (TRC20) — USDT</option>
+      <div class="inp-group">
+        <label class="inp-label">Network (USDT)</label>
+        <select class="inp-ctrl" id="depNet" onchange="changeDepAddr()">
+          <option value="BEP20">BNB Smart Chain (BEP20) - USDT</option>
+          <option value="TRC20">TRON (TRC20) - USDT</option>
         </select>
       </div>
 
-      <div class="field-label">আপনার Binance USDT Deposit Address</div>
-      <div class="address-box">
-        <!-- নিচে BEP20 এবং TRC20 এর জায়গায় আপনার নিজের Binance USDT অ্যাড্রেস বসান -->
-        <span id="myBinanceUsdtAddress">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
-        <button class="copy-btn" onclick="copyMyAddress()">Copy</button>
+      <label class="inp-label">Binance USDT Deposit Address</label>
+      <div class="addr-card">
+        <!-- আপনার নিজের Binance USDT অ্যাড্রেস নিচে বসাবেন -->
+        <span id="adminBinanceAddr">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
+        <button class="btn-copy" onclick="copyAdminAddr()">Copy</button>
       </div>
 
-      <form onsubmit="submitDeposit(event)">
-        <div class="field-group">
-          <label class="field-label">ডিপোজিটকৃত পরিমাণ (USDT)</label>
-          <input type="number" step="0.01" min="1" required class="field-input" id="depositAmount" placeholder="যেমন: 10.00 USDT" />
+      <form onsubmit="handleDeposit(event)">
+        <div class="inp-group">
+          <label class="inp-label">Amount (USDT)</label>
+          <input type="number" step="0.01" min="1" required class="inp-ctrl" id="depAmt" placeholder="0.00 USDT" />
         </div>
-        <div class="field-group">
-          <label class="field-label">TxID / Hash (ঐচ্ছিক)</label>
-          <input type="text" class="field-input" id="depositTxid" placeholder="Binance USDT ট্রানজেকশন আইডি দিন" />
+        <div class="inp-group">
+          <label class="inp-label">TxID (Optional)</label>
+          <input type="text" class="inp-ctrl" id="depTx" placeholder="Binance Transaction ID" />
         </div>
-        <button type="submit" class="submit-btn">USDT ডিপোজিট কনফার্ম করুন</button>
+        <button type="submit" class="btn-primary">Confirm Binance USDT Deposit</button>
       </form>
     </div>
   </div>
 
-  <!-- BINANCE USDT WITHDRAW MODAL (ONLY BINANCE + USDT) -->
-  <div class="modal-backdrop" id="withdrawModal">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <h3>Withdraw USDT (Binance Only)</h3>
-        <button class="icon-btn" onclick="closeModals()">✕</button>
+  <!-- WITHDRAW MODAL (BINANCE USDT ONLY) -->
+  <div class="sheet-overlay" id="withdrawSheet">
+    <div class="sheet-box">
+      <div class="sheet-head">
+        <h3>Withdraw USDT</h3>
+        <button class="hdr-btn" style="color:#fff;" onclick="closeSheets()">✕</button>
       </div>
 
-      <div class="binance-pill">🟡 Binance Payout · USDT Only</div>
+      <div class="binance-only-tag">Binance · USDT Only</div>
 
-      <form onsubmit="submitWithdraw(event)">
-        <div class="field-group">
-          <label class="field-label">ইউজার Binance USDT অ্যাড্রেস</label>
-          <input type="text" required class="field-input" id="userBinanceUsdtAddr" placeholder="ইউজার তার Binance USDT অ্যাড্রেস দেবে" />
+      <form onsubmit="handleWithdraw(event)">
+        <div class="inp-group">
+          <label class="inp-label">Your Binance USDT Address</label>
+          <input type="text" required class="inp-ctrl" id="userUsdtAddr" placeholder="Enter Binance USDT Address" />
         </div>
-        <div class="field-group">
-          <label class="field-label">USDT Network</label>
-          <select class="field-select" id="withdrawNetwork">
-            <option value="BEP20">BNB Smart Chain (BEP20) — USDT</option>
-            <option value="TRC20">TRON (TRC20) — USDT</option>
+        <div class="inp-group">
+          <label class="inp-label">Network (USDT)</label>
+          <select class="inp-ctrl" id="wdNet">
+            <option value="BEP20">BNB Smart Chain (BEP20) - USDT</option>
+            <option value="TRC20">TRON (TRC20) - USDT</option>
           </select>
         </div>
-        <div class="field-group">
-          <label class="field-label">উইথড্র পরিমাণ (USDT)</label>
-          <input type="number" step="0.01" min="1" required class="field-input" id="withdrawAmount" placeholder="যেমন: 5.00 USDT" />
+        <div class="inp-group">
+          <label class="inp-label">Withdraw Amount (USDT)</label>
+          <input type="number" step="0.01" min="1" required class="inp-ctrl" id="wdAmt" placeholder="0.00 USDT" />
         </div>
-        <button type="submit" class="submit-btn">USDT উইথড্র রিকোয়েস্ট পাঠান</button>
+        <button type="submit" class="btn-primary">Submit Binance USDT Withdraw</button>
       </form>
     </div>
   </div>
 
   <script>
-    const TVR_RATE = 0.10001;
-    let usdtBalance = 12.00;
+    const TVR_PRICE = 0.10001;
+    let usdVal = 12.00;
 
-    // আপনার নিজের Binance USDT অ্যাড্রেস এখানে বসান
-    const BINANCE_USDT_ADDRESSES = {0x27291c55355aeef66b4df658ce01960f9d6735d9
+    // এখানে আপনার নিজের Binance USDT অ্যাড্রেস দিন
+    const MY_BINANCE_USDT = {0x27291c55355aeef66b4df658ce01960f9d6735d9
       BEP20: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
       TRC20: "TNPeeaaFB7K9cmo4uQpcU32zGK8G1NYqeL"
     };
 
-    function refreshUI() {
-      const tvrAmount = usdtBalance / TVR_RATE;
-      document.getElementById('totalUsdt').textContent = `$${usdtBalance.toFixed(2)}`;
-      document.getElementById('tokenAssetsUsdt').textContent = `$${usdtBalance.toFixed(2)}`;
-      document.getElementById('usdtSubline').textContent = `${usdtBalance.toFixed(2)} USDT · ≈ ${tvrAmount.toFixed(2)} TVR`;
-      document.getElementById('usdtBalance').textContent = usdtBalance.toFixed(2);
-      document.getElementById('usdtUsd').textContent = `≈ $${usdtBalance.toFixed(2)}`;
-      document.getElementById('tvrBalance').textContent = Math.floor(tvrAmount);
-      document.getElementById('tvrUsd').textContent = `≈ $${(Math.floor(tvrAmount) * TVR_RATE).toFixed(4)}`;
+    function updateScreen() {
+      const tvrCount = usdVal / TVR_PRICE;
+      document.getElementById("usdTotalText").textContent = usdVal.toFixed(2);
+      document.getElementById("tokenAssetAmt").textContent = `$${usdVal.toFixed(2)}`;
+      document.getElementById("tvrTotalText").textContent = `≈ ${tvrCount.toFixed(2)} TVR`;
+      document.getElementById("tvrQty").textContent = Math.floor(tvrCount);
+      document.getElementById("tvrFiat").textContent = `≈ $${(Math.floor(tvrCount) * TVR_PRICE).toFixed(4)}`;
     }
 
-    function updateDepositAddressByNetwork() {
-      const net = document.getElementById('depositNetwork').value;
-      document.getElementById('myBinanceUsdtAddress').textContent = BINANCE_USDT_ADDRESSES[net] || "";
+    function changeDepAddr() {
+      const net = document.getElementById("depNet").value;
+      document.getElementById("adminBinanceAddr").textContent = MY_BINANCE_USDT[net];
     }
 
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.style.display = 'block';
-      clearTimeout(window.toastTimer);
-      window.toastTimer = setTimeout(() => {
-        toast.style.display = 'none';
-      }, 2600);
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.style.display = "block";
+      clearTimeout(window._t);
+      window._t = setTimeout(() => el.style.display = "none", 2400);
     }
 
-    function openDepositModal() {
-      closeModals();
-      updateDepositAddressByNetwork();
-      document.getElementById('depositModal').classList.add('open');
+    function openDeposit() {
+      closeSheets();
+      changeDepAddr();
+      document.getElementById("depositSheet").classList.add("open");
     }
 
-    function openWithdrawModal() {
-      closeModals();
-      document.getElementById('withdrawModal').classList.add('open');
+    function openWithdraw() {
+      closeSheets();
+      document.getElementById("withdrawSheet").classList.add("open");
     }
 
-    function closeModals() {
-      document.getElementById('depositModal').classList.remove('open');
-      document.getElementById('withdrawModal').classList.remove('open');
+    function closeSheets() {
+      document.getElementById("depositSheet").classList.remove("open");
+      document.getElementById("withdrawSheet").classList.remove("open");
     }
 
-    function copyMyAddress() {
-      const addr = document.getElementById('myBinanceUsdtAddress').textContent.trim();
-      navigator.clipboard?.writeText(addr);
-      showToast('Binance USDT অ্যাড্রেস কপি হয়েছে!');
+    function copyAdminAddr() {
+      const txt = document.getElementById("adminBinanceAddr").textContent.trim();
+      navigator.clipboard?.writeText(txt);
+      toast("Binance USDT Address Copied!");
     }
 
-    function addActivityItem(title, subtitle, rightText, color = '#e5c396') {
-      const list = document.getElementById('activityList');
-      const row = document.createElement('div');
-      row.className = 'token-row';
-      row.innerHTML = `
+    function logActivity(title, sub, amountText, color) {
+      const box = document.getElementById("activityContainer");
+      const item = document.createElement("div");
+      item.className = "token-item";
+      item.innerHTML = `
         <div>
-          <div class="token-name">${title}</div>
-          <div class="token-sub">${subtitle}</div>
+          <div class="token-symbol" style="font-size:14px;">${title}</div>
+          <div class="token-fullname" style="word-break:break-all;">${sub}</div>
         </div>
-        <div class="token-right">
-          <div class="token-bal" style="font-size:14px; color:${color};">${rightText}</div>
+        <div class="token-values">
+          <div class="token-qty" style="font-size:14px; color:${color};">${amountText}</div>
         </div>
       `;
-      list.prepend(row);
+      box.prepend(item);
     }
 
-    function submitDeposit(e) {
+    function handleDeposit(e) {
       e.preventDefault();
-      const amt = parseFloat(document.getElementById('depositAmount').value);
-      const net = document.getElementById('depositNetwork').value;
-      if (isNaN(amt) || amt <= 0) return;
+      const amt = parseFloat(document.getElementById("depAmt").value);
+      const net = document.getElementById("depNet").value;
+      if (!amt || amt <= 0) return;
 
-      usdtBalance += amt;
-      refreshUI();
-      addActivityItem(
+      usdVal += amt;
+      updateScreen();
+      logActivity(
         `Binance Deposit (+${amt.toFixed(2)} USDT)`,
-        `Network: ${net} · To Admin Binance USDT`,
+        `Network: ${net} · USDT`,
         `+${amt.toFixed(2)} USDT`,
-        '#2ecc71'
+        "#4cd964"
       );
       e.target.reset();
-      closeModals();
-      showToast(`${amt.toFixed(2)} USDT Binance ডিপোজিট রেকর্ড হয়েছে`);
+      closeSheets();
+      toast(`${amt.toFixed(2)} USDT Deposit Submitted`);
     }
 
-    function submitWithdraw(e) {
+    function handleWithdraw(e) {
       e.preventDefault();
-      const addr = document.getElementById('userBinanceUsdtAddr').value.trim();
-      const net = document.getElementById('withdrawNetwork').value;
-      const amt = parseFloat(document.getElementById('withdrawAmount').value);
+      const addr = document.getElementById("userUsdtAddr").value.trim();
+      const net = document.getElementById("wdNet").value;
+      const amt = parseFloat(document.getElementById("wdAmt").value);
 
-      if (!addr || isNaN(amt) || amt <= 0) return;
-      if (amt > usdtBalance) {
-        showToast('পর্যাপ্ত USDT ব্যালেন্স নেই!');
+      if (!addr || !amt || amt <= 0) return;
+      if (amt > usdVal) {
+        toast("Insufficient Balance");
         return;
       }
 
-      usdtBalance -= amt;
-      refreshUI();
-      addActivityItem(
+      usdVal -= amt;
+      updateScreen();
+      logActivity(
         `Binance Withdraw (-${amt.toFixed(2)} USDT)`,
-        `To: ${addr} (${net} · USDT)`,
+        `User Address: ${addr} (${net})`,
         `Pending`,
-        '#f3ba2f'
+        "#f3ba2f"
       );
       e.target.reset();
-      closeModals();
-      showToast('USDT উইথড্র রিকোয়েস্ট যুক্ত হয়েছে — অ্যাড্রেস কপি করে USDT পাঠান');
+      closeSheets();
+      toast("Withdraw Request Submitted");
     }
 
-    function selectAssetCard(type) {
-      const tokenCard = document.getElementById('cardTokenAssets');
-      const nodeCard = document.getElementById('cardHoldNode');
-      if (type === 'token') {
-        tokenCard.classList.add('active-gold');
-        nodeCard.classList.remove('active-gold');
+    function toggleAsset(type) {
+      const c1 = document.getElementById("cardToken");
+      const c2 = document.getElementById("cardNode");
+      if (type === "token") {
+        c1.classList.add("selected");
+        c2.classList.remove("selected");
       } else {
-        nodeCard.classList.add('active-gold');
-        tokenCard.classList.remove('active-gold');
+        c2.classList.add("selected");
+        c1.classList.remove("selected");
       }
     }
 
-    function switchTab(tab) {
-      document.getElementById('tab-home').style.display = tab === 'home' ? 'block' : 'none';
-      document.getElementById('tab-activity').style.display = tab === 'activity' ? 'block' : 'none';
-      document.getElementById('nav-home').classList.toggle('active', tab === 'home');
-      document.getElementById('nav-activity').classList.toggle('active', tab === 'activity');
+    function switchView(view) {
+      document.getElementById("viewHome").style.display = view === "home" ? "block" : "none";
+      document.getElementById("viewActivity").style.display = view === "activity" ? "block" : "none";
+      document.getElementById("navHome").classList.toggle("active", view === "home");
+      document.getElementById("navActivity").classList.toggle("active", view === "activity");
     }
 
-    refreshUI();
+    updateScreen();
   </script>
 </body>
 </html>
