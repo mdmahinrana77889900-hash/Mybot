@@ -79,5 +79,551 @@
     .hero-sub {
       font-size: 13px;
       color: var(--text-muted);
-      margin-bottom:
-        
+      margin-bottom: 8px;
+    }
+
+    .hero-usd {
+      font-size: 40px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .hero-tkn {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .reward-pill {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(217, 173, 110, 0.14);
+      border: 1px solid rgba(217, 173, 110, 0.25);
+      color: var(--gold-light);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .quick-btn {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 12px 6px;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, border-color 0.15s;
+    }
+
+    .quick-btn:active {
+      transform: scale(0.96);
+    }
+
+    .quick-btn.active {
+      border-color: var(--gold);
+      background: rgba(217, 173, 110, 0.14);
+    }
+
+    .quick-icon {
+      font-size: 18px;
+      color: var(--gold-light);
+    }
+
+    .assets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .asset-gold {
+      background: var(--gold-grad);
+      color: #1a1208;
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .asset-gold .label {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .asset-gold .val {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .asset-dark {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .asset-dark .label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 14px;
+    }
+
+    .asset-dark .val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .panel {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .panel h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--gold-light);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(217, 173, 110, 0.28);
+      background: #14100c;
+      color: var(--text-main);
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: var(--gold-grad);
+      color: #191108;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .action-btn.secondary {
+      background: rgba(217, 173, 110, 0.14);
+      color: var(--gold-light);
+      border: 1px solid var(--card-border);
+    }
+
+    .task-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .task-row:last-child {
+      border-bottom: none;
+    }
+
+    .claim-btn {
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: none;
+      background: var(--gold);
+      color: #191108;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .claim-btn.done {
+      background: var(--accent-green);
+      color: #ffffff;
+    }
+
+    .ref-box {
+      background: #14100c;
+      border: 1px dashed var(--card-border);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      word-break: break-all;
+      color: var(--gold-light);
+      margin-top: 8px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #19130e;
+      border-top: 1px solid var(--card-border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px 4px;
+      z-index: 40;
+    }
+
+    .nav-item {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 5px 2px;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: var(--gold-light);
+    }
+
+    .toast {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2b2116;
+      color: #fff;
+      border: 1px solid var(--gold);
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 99;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="toast" id="toast"></div>
+
+  <div class="app-wrap">
+    <div class="top-brand">
+      <div class="brand-title">TAVORA<span>.</span></div>
+      <div class="user-chip" id="top-user">@prince</div>
+    </div>
+
+    <!-- HOME / WALLET OVERVIEW -->
+    <section id="tab-home" class="section active">
+      <div class="hero-card">
+        <div class="hero-sub">মোট সম্পদ · USD</div>
+        <div class="hero-usd" id="hero-usd">$12.00</div>
+        <div class="hero-tkn" id="hero-tkn">≈ 120.00 TKN</div>
+        <div class="reward-pill" id="today-reward">আজকের পুরস্কার +0.00</div>
+      </div>
+
+      <div class="quick-grid">
+        <button class="quick-btn active" id="q-receive" onclick="openQuickAction('receive')">
+          <span class="quick-icon">📥</span>
+          <span>Receive</span>
+        </button>
+        <button class="quick-btn" id="q-transfer" onclick="openQuickAction('transfer')">
+          <span class="quick-icon">📤</span>
+          <span>Transfer</span>
+        </button>
+        <button class="quick-btn" id="q-swap" onclick="openQuickAction('swap')">
+          <span class="quick-icon">⇄</span>
+          <span>Flash Swap</span>
+        </button>
+        <button class="quick-btn" id="q-promo" onclick="openQuickAction('promo')">
+          <span class="quick-icon">🎁</span>
+          <span>Promotion</span>
+        </button>
+      </div>
+
+      <div class="assets-grid">
+        <div class="asset-gold">
+          <div class="label">🪙 Token Assets</div>
+          <div class="val" id="asset-usd">$12.00</div>
+        </div>
+        <div class="asset-dark">
+          <div class="label">📦 Hold Node</div>
+          <div class="val" id="hold-usd">$0.00</div>
+        </div>
+      </div>
+
+      <!-- Quick Action Box -->
+      <div class="panel" id="quick-panel">
+        <div id="box-receive">
+          <h3>Receive / Deposit (TKN)</h3>
+          <input type="number" id="dep-tkn" placeholder="ডিপোজিট TKN পরিমাণ (যেমন: 50)" min="1" />
+          <button class="action-btn" onclick="doDeposit()">Deposit করুন</button>
+        </div>
+
+        <div id="box-transfer" style="display:none;">
+          <h3>Transfer / Withdraw (TKN)</h3>
+          <input type="number" id="tr-tkn" placeholder="ট্রান্সফার/উইথড্র TKN পরিমাণ" min="1" />
+          <input type="text" id="tr-target" placeholder="প্রাপকের @username বা ওয়ালেট" />
+          <button class="action-btn" onclick="doTransfer()">Transfer করুন</button>
+        </div>
+
+        <div id="box-swap" style="display:none;">
+          <h3>Flash Swap (TKN → Hold Node)</h3>
+          <input type="number" id="swap-tkn" placeholder="Node-এ লক করার TKN পরিমাণ" min="1" />
+          <button class="action-btn" onclick="doSwapToNode()">Hold Node-এ Swap করুন</button>
+        </div>
+
+        <div id="box-promo" style="display:none;">
+          <h3>Promotion & Daily Tap</h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">
+            প্রতি ট্যাপে +1 TKN পান (10 TKN = $1.00)।
+          </p>
+          <button class="action-btn" onclick="doTap()">+1 TKN ট্যাপ করুন</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TASKS / PROMOTION -->
+    <section id="tab-tasks" class="section">
+      <div class="panel">
+        <h3>Promotion & Tasks</h3>
+        <div class="task-row">
+          <div>
+            <div><strong>ডেইলি চেক-ইন</strong></div>
+            <div style="font-size:12px; color:var(--text-muted);">+20 TKN ($2.00)</div>
+          </div>
+          <button class="claim-btn" id="btn-t1" onclick="claimTask('t1', 20)">ক্লেইম</button>
+        </div>
+        <div class="task-row">
+          <div>
+            <div><strong>অফিসিয়াল চ্যানেল ভিজিট</strong></div>
+            <div style="font-size:12px; color:var(--text-muted);">+30 TKN ($3.00)</div>
+          </div>
+          <button class="claim-btn" id="btn-t2" onclick="claimTask('t2', 30)">ক্লেইম</button>
+        </div>
+        <div class="task-row">
+          <div>
+            <div><strong>রেফার বোনাস আনলক</strong></div>
+            <div style="font-size:12px; color:var(--text-muted);">+50 TKN ($5.00)</div>
+          </div>
+          <button class="claim-btn" id="btn-t3" onclick="claimTask('t3', 50)">ক্লেইম</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WALLET HISTORY -->
+    <section id="tab-wallet" class="section">
+      <div class="panel">
+        <h3>সাম্প্রতিক লেনদেন</h3>
+        <div id="tx-list" style="font-size:13px; color:var(--text-muted);">এখনো কোনো লেনদেন নেই।</div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="tab-profile" class="section">
+      <div class="panel">
+        <h3>প্রোফাইল ও রেফার</h3>
+        <div style="font-size:15px; font-weight:700;" id="p-name">Prince</div>
+        <div style="font-size:13px; color:var(--text-muted); margin-top:2px;" id="p-handle">@prince</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;" id="p-id">ID: Guest</div>
+
+        <div style="margin-top:14px;">
+          <div style="font-size:13px; font-weight:600;">আপনার রেফার লিংক</div>
+          <div class="ref-box" id="ref-url">https://t.me/tavoraeeebot?start=ref_guest</div>
+          <button class="action-btn secondary" onclick="copyRef()">রেফার লিংক কপি করুন</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bottom-bar">
+    <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+      <span>🏠</span><span>Home</span>
+    </button>
+    <button class="nav-item" id="nav-tasks" onclick="switchTab('tasks')">
+      <span>🎁</span><span>Tasks</span>
+    </button>
+    <button class="nav-item" id="nav-wallet" onclick="switchTab('wallet')">
+      <span>💳</span><span>History</span>
+    </button>
+    <button class="nav-item" id="nav-profile" onclick="switchTab('profile')">
+      <span>👤</span><span>Profile</span>
+    </button>
+  </nav>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const u = tg.initDataUnsafe?.user || { id: "guest", first_name: "Prince", username: "prince" };
+    const fullName = [u.first_name, u.last_name].filter(Boolean).join(" ") || "Prince";
+    const handle = u.username ? "@" + u.username : "Telegram User";
+    const refLink = `https://t.me/tavoraeeebot?start=ref_${u.id}`;
+
+    document.getElementById("top-user").innerText = handle;
+    document.getElementById("p-name").innerText = fullName;
+    document.getElementById("p-handle").innerText = handle;
+    document.getElementById("p-id").innerText = "Telegram ID: " + u.id;
+    document.getElementById("ref-url").innerText = refLink;
+
+    // 120 TKN = $12.00 (10 TKN = $1.00)
+    let tkn = parseFloat(localStorage.getItem("tv_tkn") || "120");
+    let holdTkn = parseFloat(localStorage.getItem("tv_hold") || "0");
+    let todayReward = parseFloat(localStorage.getItem("tv_reward") || "0");
+    let tasksDone = JSON.parse(localStorage.getItem("tv_tasks") || "{}");
+    let txLogs = JSON.parse(localStorage.getItem("tv_tx") || "[]");
+
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.innerText = msg;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 2000);
+    }
+
+    function addLog(label, amount) {
+      txLogs.unshift({ label, amount });
+      txLogs = txLogs.slice(0, 12);
+    }
+
+    function saveAndRender() {
+      localStorage.setItem("tv_tkn", String(tkn));
+      localStorage.setItem("tv_hold", String(holdTkn));
+      localStorage.setItem("tv_reward", String(todayReward));
+      localStorage.setItem("tv_tasks", JSON.stringify(tasksDone));
+      localStorage.setItem("tv_tx", JSON.stringify(txLogs));
+
+      const totalTkn = tkn + holdTkn;
+      const totalUsd = (totalTkn / 10).toFixed(2);
+      const tokenUsd = (tkn / 10).toFixed(2);
+      const holdUsd = (holdTkn / 10).toFixed(2);
+
+      document.getElementById("hero-usd").innerText = "$" + totalUsd;
+      document.getElementById("hero-tkn").innerText = "≈ " + totalTkn.toFixed(2) + " TKN";
+      document.getElementById("today-reward").innerText = "আজকের পুরস্কার +" + todayReward.toFixed(2);
+      document.getElementById("asset-usd").innerText = "$" + tokenUsd;
+      document.getElementById("hold-usd").innerText = "$" + holdUsd;
+
+      ["t1", "t2", "t3"].forEach((id) => {
+        const b = document.getElementById("btn-" + id);
+        if (b && tasksDone[id]) {
+          b.innerText = "সম্পন্ন";
+          b.classList.add("done");
+          b.disabled = true;
+        }
+      });
+
+      const listEl = document.getElementById("tx-list");
+      if (!txLogs.length) {
+        listEl.innerHTML = "এখনো কোনো লেনদেন নেই।";
+      } else {
+        listEl.innerHTML = txLogs
+          .map((x) => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);"><span>${x.label}</span><strong>${x.amount}</strong></div>`)
+          .join("");
+      }
+    }
+
+    function openQuickAction(type) {
+      ["receive", "transfer", "swap", "promo"].forEach((k) => {
+        document.getElementById("q-" + k).classList.toggle("active", k === type);
+        document.getElementById("box-" + k).style.display = k === type ? "block" : "none";
+      });
+    }
+
+    function switchTab(tab) {
+      ["home", "tasks", "wallet", "profile"].forEach((t) => {
+        document.getElementById("tab-" + t).classList.toggle("active", t === tab);
+        document.getElementById("nav-" + t).classList.toggle("active", t === tab);
+      });
+    }
+
+    function doTap() {
+      tkn += 1;
+      todayReward += 0.1;
+      if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
+      saveAndRender();
+    }
+
+    function doDeposit() {
+      const val = parseFloat(document.getElementById("dep-tkn").value);
+      if (!val || val <= 0) return toast("সঠিক পরিমাণ লিখুন।");
+      tkn += val;
+      document.getElementById("dep-tkn").value = "";
+      addLog("Receive / Deposit", "+" + val + " TKN");
+      toast("Deposit সফল হয়েছে!");
+      saveAndRender();
+    }
+
+    function doTransfer() {
+      const val = parseFloat(document.getElementById("tr-tkn").value);
+      const target = document.getElementById("tr-target").value.trim();
+      if (!val || val <= 0) return toast("সঠিক পরিমাণ লিখুন।");
+      if (!target) return toast("প্রাপকের তথ্য দিন।");
+      if (val > tkn) return toast("পর্যাপ্ত TKN ব্যালেন্স নেই।");
+      tkn -= val;
+      document.getElementById("tr-tkn").value = "";
+      document.getElementById("tr-target").value = "";
+      addLog("Transfer → " + target, "-" + val + " TKN");
+      toast("Transfer সম্পন্ন হয়েছে!");
+      saveAndRender();
+    }
+
+    function doSwapToNode() {
+      const val = parseFloat(document.getElementById("swap-tkn").value);
+      if (!val || val <= 0) return toast("সঠিক পরিমাণ লিখুন।");
+      if (val > tkn) return toast("পর্যাপ্ত TKN ব্যালেন্স নেই।");
+      tkn -= val;
+      holdTkn += val;
+      document.getElementById("swap-tkn").value = "";
+      addLog("Flash Swap → Hold Node", val + " TKN");
+      toast("Hold Node-এ যুক্ত হয়েছে!");
+      saveAndRender();
+    }
+
+    function claimTask(id, reward) {
+      if (tasksDone[id]) return;
+      tasksDone[id] = true;
+      tkn += reward;
+      todayReward += reward / 10;
+      addLog("Task Reward (" + id + ")", "+" + reward + " TKN");
+      toast("+" + reward + " TKN বোনাস যুক্ত হয়েছে!");
+      saveAndRender();
+    }
+
+    function copyRef() {
+      navigator.clipboard?.writeText(refLink);
+      toast("রেফার লিংক কপি হয়েছে!");
+    }
+
+    saveAndRender();
+  </script>
+</body>
+</html>
