@@ -1,7 +1,183 @@
-<nav class="bottom-nav">
-  <button onclick="showPage('home')">🏠<span>Home</span></button>
-  <button onclick="showPage('profile')">👤<span>MY</span></button>
-  <button onclick="showPage('promotion')">🎁<span>Promotion</span></button>
-  <button onclick="showPage('activity')">📊<span>Activity</span></button>
-  <button onclick="showPage('tvr')">📈<span>TVR</span></button>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>TAVORA — Web3 Wallet</title>
+  <style>
+    :root {
+      --bg-deep: #070504;
+      --glass: rgba(24, 19, 14, 0.72);
+      --glass-strong: rgba(30, 23, 17, 0.92);
+      --gold-grad: linear-gradient(135deg, #f3d5a5 0%, #c8965c 50%, #9b6b38 100%);
+      --gold-text: #edd0a3;
+      --gold-dim: #a8957e;
+      --text-white: #fcf8f2;
+      --border-gold: rgba(237, 208, 163, 0.18);
+      --green: #2ecc71;
+      --yellow: #f3ba2f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: #030202;
+      color: var(--text-white);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      padding-bottom: 86px;
+      background:
+        radial-gradient(ellipse at 75% 15%, rgba(214, 152, 78, 0.35) 0%, rgba(120, 74, 28, 0.15) 40%, transparent 70%),
+        radial-gradient(ellipse at 15% 65%, rgba(166, 110, 48, 0.14) 0%, transparent 55%),
+        linear-gradient(180deg, #171009 0%, #0b0805 52%, #070504 100%);
+    }
+
+    /* Realistic 3D Glowing Planet & Orbital Rings Background */
+    .cosmos-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .planet-sphere {
+      position: absolute;
+      top: 32px;
+      right: -48px;
+      width: 270px;
+      height: 270px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 224, 178, 0.55) 0%, rgba(198, 138, 68, 0.32) 32%, rgba(74, 45, 18, 0.25) 65%, rgba(12, 8, 5, 0.95) 100%);
+      box-shadow:
+        -18px 18px 60px rgba(212, 148, 72, 0.22),
+        inset 16px 14px 36px rgba(255, 232, 196, 0.32),
+        inset -25px -25px 50px rgba(0, 0, 0, 0.85);
+      animation: floatPlanet 9s ease-in-out infinite;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      top: 10px;
+      right: -85px;
+      width: 350px;
+      height: 310px;
+      border-radius: 50%;
+      border: 1px solid rgba(237, 208, 163, 0.14);
+      transform: rotate(-24deg);
+      box-shadow: 0 0 24px rgba(212, 148, 72, 0.08);
+    }
+
+    .star-dust {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 22% 14%, rgba(255,235,200,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 68% 9%, rgba(255,235,200,0.5), transparent),
+        radial-gradient(1px 1px at 84% 34%, rgba(255,235,200,0.45), transparent),
+        radial-gradient(1px 1px at 14% 42%, rgba(255,235,200,0.35), transparent),
+        radial-gradient(1.5px 1.5px at 46% 24%, rgba(255,235,200,0.4), transparent);
+    }
+
+    @keyframes floatPlanet {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-8px) scale(1.015); }
+    }
+
+    /* Main Content Layer */
+    .content-layer {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Clean Brand Top Bar (No fake browser bar) */
+    .brand-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 18px 10px;
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      background: linear-gradient(90deg, #ffffff 0%, #edd0a3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .network-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(243, 186, 47, 0.12);
+      border: 1px solid rgba(243, 186, 47, 0.35);
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+    }
+
+    /* Valuation Centerpiece */
+    .valuation-box {
+      text-align: center;
+      padding: 20px 18px 22px;
+    }
+
+    .val-caption {
+      font-size: 13px;
+      color: rgba(252, 248, 242, 0.72);
+      letter-spacing: 0.4px;
+      margin-bottom: 8px;
+    }
+
+    .val-main {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 4px;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .val-main span.cur {
+      font-size: 23px;
+      color: var(--gold-text);
+      font-weight: 600;
+    }
+
+    .val-sub {
+      font-size: 14px;
+      color: rgba(237, 208, 163, 0.78);
+      margin-top: 6px;
+    }
+
+    .daily-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 15px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgb
